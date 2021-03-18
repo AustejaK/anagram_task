@@ -1,0 +1,70 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+
+{% block content %}
+<body class="bg-light">
+     <div class="container">
+        <div class="row no-gutters">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10 col-xs-12">
+                <div class="card ">
+                    <h5 class="card-header text-center">Results</h5>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <p>You solved {{player.correct}} out of {{Constants.total_number}}
+                                anagrams correctly. Your bonus payment is {{player.payoff}}.</p>
+                                         <p> <i> <br>This is the list of anagrams you have received and the correct answers </i> </p>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Anagram</th>
+                                                    <th scope="col">Answer</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if participant.vars.treatment == 'easy' %}
+                                                {% for word, anagram, tabs in participant.vars.pair_select_easy %}
+                                                <tr>
+                                                    <th scope="col">{{forloop.counter}}</th>
+                                                    <td scope="col">{{anagram}}</td>
+                                                    <td scope="col">{{word}}</td>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            {% if participant.vars.treatment == 'difficult' %}
+                                                {% for word, anagram, tabs in participant.vars.pair_select_difficult %}
+                                                <tr>
+                                                    <th scope="col">{{forloop.counter}}</th>
+                                                    <td scope="col">{{anagram}}</td>
+                                                    <td scope="col">{{word}}</td>
+                                                {% endfor %}
+                                            {% endif %}
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+</body>
+{% endblock %}
+
+{% block scripts %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+
+
+
+{% endblock %}

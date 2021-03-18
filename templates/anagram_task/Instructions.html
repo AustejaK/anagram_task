@@ -1,0 +1,34 @@
+{% extends "global/Page.html" %}
+{% load static otree %}
+
+{% block content %}
+<body class="bg-light">
+    <div class="card">
+        <div class="card-header text-center font-weight-bold">
+            <h5 class="card-title"> Anagram task </h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+            <p> In this task we will ask you to solve {{Constants.total_number}} anagrams. Each correct solution is
+            worth {{Constants.bonus}}. You will have <b>5 minutes</b> to complete the task. When time passes, the task
+            ends automatically. The more anagrams you solve, the higher is your bonus payment.
+            <br><br>
+            On the next page you will see a table with numbered tabs. Click on each tab to reveal the anagram. It does
+            not matter if you type in capital or lowercase letters.
+            After typing in your answer, click the button "Mark as finished". In this way you can see how many anagrams
+            have been finished and how many are still left to do. If you don't know the answer or don't want to solve
+            that anagram, simply leave the field empty and click on the next numbered tab.
+            <br><br>
+            All the anagrams are solvable. The words are in a singular or infinitive form. At the end of the study you
+            will be given the solution to all the anagrams and will be told how many anagrams you solved correctly.
+            <br><br>
+            When you are ready to proceed, please click "Next". Be aware that by clicking "Next", the time countdown
+            begins. The task will finish automatically after time has passed and you will move to the next page.
+            </p>
+        </div>
+        <div class="card-footer text-right"> {% next_button %}
+        </div>
+    </div>
+</body>
+
+{% endblock %}

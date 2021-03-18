@@ -1,0 +1,171 @@
+{% extends "global/Page.html" %}
+{% load static otree %}
+
+{% block content %}
+<style>
+.selected {
+  background: #8fe573;
+}
+.skipped {
+  background: #F60E0E;
+}
+
+</style>
+
+<body class="bg-light">
+    <div class="card">
+        <div class="card-header text-center font-weight-bold">
+            <h5 class="card-title">  </h5>
+        </div>
+        <!-- card body with tabs - BEGINNING -->
+        <div class="card-body">
+            <ul class="nav nav-tabs nav-fill" id="pills-tab" role="tablist">
+
+                <!-- home tab - BEGINNING -->
+                <li class="nav-item">
+                    <a class="nav-link active small font-weight-bold text-dark" id="home=tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Help</a>
+                </li>
+                <!-- home tab - END -->
+
+                {% if treatment == 'easy' %}
+
+                <!-- other tabs - BEGINNING -->
+                {% for tabs in pair_select_easy %}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" id="pills{{forloop.counter}}-tab" data-toggle="tab" href="#pills{{forloop.counter}}" role="tab" aria-controls="pills{{forloop.counter}}" aria-selected="false">{{forloop.counter}}</a>
+                </li>
+                {% endfor %}
+             </ul>
+                <!-- other tabs - END -->
+
+                <!-- home tab content - BEGINNING -->
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <p>  Please click on each number to find a new anagram.
+                        <!--<br> <br> The "Next" button at the bottom of the screen will start working only when you
+                        mark all anagrams as finished. </p>-->
+                    </div>
+
+                <!-- home tab content - END -->
+
+                <!-- tab content - BEGINNING -->
+                        {% for wl, al, tabs in pair_select_easy %}
+                        <div class="tab-pane fade" id="pills{{forloop.counter}}" role="tabpanel" aria-labelledby="pills{{forloop.counter}}-tab">
+                            <div class="card-text">
+                                <p> Please solve this anagram:
+                                    <p class="text-uppercase">{{al}}</p>
+                                <input type="text" name="anagram_{{forloop.counter}}" id="anagram_{{forloop.counter}}" minlength="5" maxlength="5" oninput="this.value=this.value.toLowerCase()">
+                                <br><br>
+                                <button type="button" class="btn btn-secondary submit_btn" name="submit_{{forloop.counter}}" onclick="clickCounter()"> Mark as finished </button>
+                            </div>
+                        </div>
+                       {% endfor %}
+
+                    {% endif %}
+
+                {% if treatment == 'difficult' %}
+
+                <!-- other tabs - BEGINNING -->
+                {% for tabs in pair_select_difficult %}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" id="pills{{forloop.counter}}-tab" data-toggle="tab" href="#pills{{forloop.counter}}" role="tab" aria-controls="pills{{forloop.counter}}" aria-selected="false">{{forloop.counter}}</a>
+                </li>
+                {% endfor %}
+             </ul>
+                <!-- other tabs - END -->
+
+                <!-- home tab content - BEGINNING -->
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <p>  Please click on each number to find a new anagram.
+                        <!--<br> <br> The "Next" button at the bottom of the screen will start working only when you
+                        mark all anagrams as finished. </p>-->
+                    </div>
+
+                <!-- home tab content - END -->
+
+                <!-- tab content - BEGINNING -->
+                        {% for wl, al, tabs in pair_select_difficult %}
+                        <div class="tab-pane fade" id="pills{{forloop.counter}}" role="tabpanel" aria-labelledby="pills{{forloop.counter}}-tab">
+                            <div class="card-text">
+                                <p> Please solve this anagram:
+                                    <p class="text-uppercase">{{al}}</p>
+                                <input type="text" name="anagram_{{forloop.counter}}" id="anagram_{{forloop.counter}}" minlength="5" maxlength="5" oninput="this.value=this.value.toLowerCase()">
+                                <br><br>
+                                <button type="button" class="btn btn-secondary submit_btn" name="submit_{{forloop.counter}}" onclick="clickCounter()"> Mark as finished </button>
+                            </div>
+                        </div>
+                       {% endfor %}
+
+                    {% endif %}
+
+
+                <!-- tab content - END -->
+                </div>
+        </div>
+        <!-- card body with tabs - END -->
+        <!--<div class="card-footer text-right">
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Finish the task</button>
+    </div>--->
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to finish?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Go back</button>
+        <button class="otree-btn-next btn btn-primary next-button otree-next-button next_btn"> Finish the task </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+
+    function clickCounter(){
+        $('.nav-tabs .active').addClass('selected');
+        $('.nav-tabs .active').removeClass('active');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+    };
+
+/*  var click_counter = 0
+    var  num_to_select = {{Constants.total_number}}
+
+    function clickCounter() {
+        $('.nav-tabs .active').addClass('selected');
+        $('.nav-tabs .active').removeClass('active');
+        click_counter = click_counter + 1;
+        if (click_counter == num_to_select){
+            $('.next_btn').prop('disabled', false);
+        };
+    };
+
+    element.addEventListener('input',function(){this.value=this.value.toLowerCase()});
+*/
+
+    $(document).ready(function() {
+      $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+          event.preventDefault();
+          return false;
+        }
+      });
+    });
+
+</script>
+{% endblock %}
